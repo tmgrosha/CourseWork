@@ -1,0 +1,30 @@
+/* Reset some default browser styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Privacy Policy Section */
+.privacy_policy {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.preview{
+    width: 80%;
+    margin: 60px auto;
+}
+embed[type="application/pdf"]{
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .privacy_policy{
+        padding:3px;
+    }
+    .preview{
+        width: 100%;
+    }
+}

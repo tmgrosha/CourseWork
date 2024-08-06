@@ -1,0 +1,244 @@
+/* Reset margins and paddings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Container for forms */
+.form-page {
+    width: 100%;
+}
+
+section h1{
+    margin-bottom: 100px;
+}
+/* Form registration container */
+.formReg {
+    max-width: 400px;
+    background-color: #ffffff; /* White background */
+    padding: 20px;
+    border: 2px solid #574e49; /* Dark brown border */
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+    margin: 20px auto; /* Center the container horizontally */
+}
+.formlog {
+    max-width: 400px;
+    background-color: #ffffff; /* White background */
+    padding: 20px;
+    border: 2px solid #574e49; /* Dark brown border */
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+    margin: 20px auto; /* Center the container horizontally */
+}
+/* Heading styles */
+h2 {
+    text-align: center;
+    color: #574e49; /* Dark brown heading */
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+}
+
+/* Form styles */
+form {
+    margin-top: 20px;
+    display: grid;
+    gap: 10px;
+}
+
+/* Label styles */
+label {
+    font-weight: bold;
+    color: #574e49; /* Dark brown label text */
+    font-size: 18px;
+    display: block;
+    margin-bottom: 8px;
+}
+
+/* Input field styles */
+input[type="tel"],
+input[type="email"],
+input[type="password"],
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: none;
+    border-bottom: 1px solid #574e49; /* Dark brown underline */
+    background-color: transparent;
+    font-size: 16px;
+    outline: none; /* Remove default focus outline */
+}
+
+/* Password input styles */
+.password-input {
+    position: relative;
+}
+
+/* Password visibility icons */
+.fa-eye-slash, .fa-eye {
+    font-size: large;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #574e49; /* Dark brown icon color */
+}
+
+/* Grouping form elements */
+.form-group {
+    margin-bottom: 20px;
+}
+
+/* Center text */
+.text-center {
+    text-align: center;
+}
+
+/* Button styles */
+button {
+    background-color: #574e49; /* Dark brown button */
+    color: #ffffff; /* White text */
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #432f2f; /* Darker brown on hover */
+}
+
+/* Checkbox and terms group */
+.form-term-group {
+    gap: 5px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.form-term-group label {
+    font-size: 14px;
+    margin: 0;
+}
+
+/* Styling for alternate log text */
+.alt-log {
+    color: rgb(75, 75, 75);
+}
+
+/* Register/Login link text */
+.reglog p {
+    margin: 15px;
+}
+
+.reglog p,
+.form-term-group a {
+    text-align: center;
+    font-size: 14px;
+    color: rgb(75, 75, 75);
+}
+
+/* Media query for responsive form container */
+@media screen and (min-width: 375px) and (max-width: 768px) {
+    .formReg {
+        max-width: 350px;
+    }
+}
+
+/* Menu page styling */
+.menu-page {
+    padding: 15vh;
+}
+
+/* Reserve container styling */
+.reserve {
+    width: 40vw;
+    margin: 80px auto;
+    background-color: #ffffff; /* White background */
+    padding: 20px;
+    border: 2px solid #574e49; /* Dark brown border */
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Input field styles for different types */
+input[type=date],
+input[type=time],
+textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type=number] {
+    width: 60%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+/* Textarea styling */
+textarea {
+    resize: vertical;
+}
+
+/* Submit button styles */
+input[type=submit] {
+    background-color: #4CAF50; /* Green background */
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+input[type=submit]:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+/* Required details container */
+.required-details {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+/* Error messages */
+#errorMessages {
+    color: red;
+    margin-bottom: 10px;
+}
+
+
+@media screen and (min-width: 375px) and (max-width: 768px) {
+    .menu-page {
+        padding: 1vh;
+    }
+    section h1 {
+        margin-bottom: 10px;
+    }
+    input[type="tel"], input[type="email"], input[type="password"], input[type="text"] {
+        margin-bottom: 0;
+    }
+    .reserve {
+        width: 45vh;
+        margin: 80px auto;
+    }
+    .required-details {
+        flex-direction: column;
+        align-items: stretch;
+        margin: -4px auto;
+    }
+}

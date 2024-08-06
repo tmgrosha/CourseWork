@@ -1,0 +1,181 @@
+/* Reset margins and paddings */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Container for the profile page */
+.profile-page {
+  padding: 15vh 10vw; /* Adjust padding for a good appearance */
+}
+
+/* Heading styles */
+.profile-page h1 {
+  margin-bottom: 40px;
+  text-align: center;
+  color: #574e49; /* Dark brown heading color */
+  font-size: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* Profile container styles */
+.profile-container {
+  max-width: 600px;
+  background-color: #ffffff; /* White background */
+  padding: 20px;
+  border: 2px solid #574e49; /* Dark brown border */
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+  margin: 0 auto; /* Center the container horizontally */
+}
+
+/* Display user information */
+.profile-info {
+  margin-bottom: 20px;
+}
+.profile-info p {
+  margin: 5px;
+}
+
+/* Edit form styles */
+.edit-form {
+  display: none; /* Hidden by default */
+}
+
+/* Toggle edit mode */
+.edit-mode .profile-info {
+  display: none;
+}
+
+.edit-mode .edit-form {
+  display: block;
+}
+
+/* Form styles */
+form {
+  margin-top: 20px;
+  display: grid;
+  gap: 10px;
+}
+
+/* Label styles */
+label {
+  font-weight: bold;
+  color: #574e49; /* Dark brown label text */
+  font-size: 18px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+/* Input field styles */
+input[type="tel"],
+input[type="email"],
+input[type="password"],
+input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc; /* Light grey border */
+  border-radius: 4px;
+  font-size: 16px;
+  outline: none; /* Remove default focus outline */
+}
+
+/* Password input styles */
+.password-input {
+  position: relative;
+}
+
+/* Password visibility icons */
+.fa-eye-slash,
+.fa-eye {
+  font-size: large;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #574e49; /* Dark brown icon color */
+}
+
+/* Grouping form elements */
+.form-group {
+  margin-bottom: 20px;
+}
+
+/* Center text */
+.text-center {
+  text-align: center;
+}
+
+/* Button styles */
+button {
+  background-color: #574e49; /* Dark brown button */
+  color: #ffffff; /* White text */
+  border: none;
+  padding: 12px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #432f2f; /* Darker brown on hover */
+}
+
+/* Error messages */
+.error {
+  color: red;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+/* Success messages */
+.success-message {
+  color: green;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+.edit-form,
+.change-password-form {
+  display: none;
+}
+.edit-form.active,
+.change-password-form.active {
+  display: block;
+}
+/* Media query for responsive design */
+@media screen and (min-width: 375px) and (max-width: 768px) {
+  .profile-page {
+    padding: 10vh 5vw;
+  }
+
+  .profile-container {
+    max-width: 90%;
+  }
+
+  section h1 {
+    font-size: 1.5rem;
+    margin: 25px auto;
+  }
+  .profile-info button {
+    margin: 5px;
+  }
+
+  input[type="tel"],
+  input[type="email"],
+  input[type="password"],
+  input[type="text"] {
+    padding: 8px;
+  }
+  
+  button {
+    margin: 5px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+}
