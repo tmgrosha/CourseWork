@@ -1,25 +1,22 @@
 <?php
-// Check if user is logged in
-include 'auth_session.php';
-include 'db.php'; // Include database connection
+// Include database connection
+// include 'auth_session.php';
+include 'db.php';
 
 // Handle Add Product
 if (isset($_POST['add'])) {
-    $title = $conn->real_escape_string($_POST['title']);
-    $description = $conn->real_escape_string($_POST['description']);
-    $price = $conn->real_escape_string($_POST['price']);
-    $categories = $conn->real_escape_string($_POST['categories']);
+    $title = $_POST['title'];
+    $description = $_POST['description'];
+    $price = $_POST['price'];
+    $categories = $_POST['categories'];
     
     $image = '';
     if (isset($_FILES['image']) && $_FILES['image']['error'] == UPLOAD_ERR_OK) {
         $fileTmpPath = $_FILES['image']['tmp_name'];
         $fileName = basename($_FILES['image']['name']);
-        $fileSize = $_FILES['image']['size'];
         $fileType = $_FILES['image']['type'];
 
-        // Allowed MIME types
         $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
-        
         if (in_array($fileType, $allowedTypes)) {
             $image = 'uploads/' . $fileName;
             move_uploaded_file($fileTmpPath, $image);
@@ -28,35 +25,35 @@ if (isset($_POST['add'])) {
             exit;
         }
     } elseif (!empty($_POST['image_url'])) {
-        $image = $conn->real_escape_string($_POST['image_url']);
+        $image = $_POST['image_url'];
     }
 
-    $sql = "INSERT INTO product (title, description, price, categories, image) VALUES ('$title', '$description', '$price', '$categories', '$image')";
-    if ($conn->query($sql) === TRUE) {
+    // Use prepared statement for inserting data
+    $stmt = $conn->prepare("INSERT INTO product (title, description, price, categories, image) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param('ssdss', $title, $description, $price, $categories, $image);
+    if ($stmt->execute()) {
         echo "New product added successfully";
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $stmt->error;
     }
+    $stmt->close();
 }
 
 // Handle Edit Product
 if (isset($_POST['update'])) {
-    $id = $conn->real_escape_string($_POST['id']);
-    $title = $conn->real_escape_string($_POST['title']);
-    $description = $conn->real_escape_string($_POST['description']);
-    $price = $conn->real_escape_string($_POST['price']);
-    $categories = $conn->real_escape_string($_POST['categories']);
+    $id = $_POST['id'];
+    $title = $_POST['title'];
+    $description = $_POST['description'];
+    $price = $_POST['price'];
+    $categories = $_POST['categories'];
     
     $image = '';
     if (isset($_FILES['image']) && $_FILES['image']['error'] == UPLOAD_ERR_OK) {
         $fileTmpPath = $_FILES['image']['tmp_name'];
         $fileName = basename($_FILES['image']['name']);
-        $fileSize = $_FILES['image']['size'];
         $fileType = $_FILES['image']['type'];
 
-        // Allowed MIME types
         $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
-        
         if (in_array($fileType, $allowedTypes)) {
             $image = 'uploads/' . $fileName;
             move_uploaded_file($fileTmpPath, $image);
@@ -65,37 +62,45 @@ if (isset($_POST['update'])) {
             exit;
         }
     } elseif (!empty($_POST['image_url'])) {
-        $image = $conn->real_escape_string($_POST['image_url']);
+        $image = $_POST['image_url'];
     }
 
-    $sql = "UPDATE product SET title='$title', description='$description', price='$price', categories='$categories', image='$image' WHERE id=$id";
-    if ($conn->query($sql) === TRUE) {
+    // Use prepared statement for updating data
+    $stmt = $conn->prepare("UPDATE product SET title=?, description=?, price=?, categories=?, image=? WHERE id=?");
+    $stmt->bind_param('ssdssi', $title, $description, $price, $categories, $image, $id);
+    if ($stmt->execute()) {
         echo "Product updated successfully";
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $stmt->error;
     }
+    $stmt->close();
 }
-
 
 // Handle Delete Product
 if (isset($_GET['delete'])) {
-    $id = $conn->real_escape_string($_GET['delete']);
+    $id = $_GET['delete'];
     
-    // Optionally delete the image file if needed
-    $sql = "SELECT image FROM product WHERE id=$id";
-    $result = $conn->query($sql);
+    // Prepare statement to get image path
+    $stmt = $conn->prepare("SELECT image FROM product WHERE id=?");
+    $stmt->bind_param('i', $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
     if ($row = $result->fetch_assoc()) {
         if (file_exists($row['image']) && !empty($row['image'])) {
             unlink($row['image']);
         }
     }
-
-    $sql = "DELETE FROM product WHERE id=$id";
-    if ($conn->query($sql) === TRUE) {
+    $stmt->close();
+    
+    // Prepare statement to delete the product
+    $stmt = $conn->prepare("DELETE FROM product WHERE id=?");
+    $stmt->bind_param('i', $id);
+    if ($stmt->execute()) {
         echo "Product deleted successfully";
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $stmt->error;
     }
+    $stmt->close();
 }
 
 // Fetch product and categories for display
@@ -105,7 +110,6 @@ $categories = $conn->query("SELECT DISTINCT categories FROM product");
 // Close connection
 $conn->close();
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
