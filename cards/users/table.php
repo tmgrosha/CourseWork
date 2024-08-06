@@ -1,39 +1,26 @@
 <?php
-// Include database connection
-include 'db.php';
+// Start session and check if user is logged in
+include 'auth_session.php';
+
+// Include the database connection file
+include '../users/db.php';
+
+// Initialize error handling (disable in production)
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 // Initialize search query
 $searchQuery = "";
-$searchTerm = "";
-
 if (isset($_POST['search'])) {
-    // Get the search term and sanitize it
     $searchTerm = trim($_POST['search_term']);
-    
-    // Sanitize and validate the search term
-    if (!empty($searchTerm)) {
-        $searchTerm = htmlspecialchars($searchTerm, ENT_QUOTES, 'UTF-8');
-        
-        // Use prepared statements to prevent SQL injection
-        $stmt = $conn->prepare("SELECT * FROM orders WHERE fullname LIKE ? OR phone_number LIKE ? OR product_title LIKE ? ORDER BY order_date DESC");
-        $searchTermWildcard = "%{$searchTerm}%";
-        $stmt->bind_param('sss', $searchTermWildcard, $searchTermWildcard, $searchTermWildcard);
-        
-        // Execute the query
-        $stmt->execute();
-        $result = $stmt->get_result();
-    } else {
-        // If no search term, show all records
-        $stmt = $conn->prepare("SELECT * FROM orders ORDER BY order_date DESC");
-        $stmt->execute();
-        $result = $stmt->get_result();
-    }
-} else {
-    // If no search request, show all records
-    $stmt = $conn->prepare("SELECT * FROM orders ORDER BY order_date DESC");
-    $stmt->execute();
-    $result = $stmt->get_result();
+    $searchTerm = $conn->real_escape_string($searchTerm);
+    $searchQuery = "WHERE fullname LIKE '%$searchTerm%' OR phone_number LIKE '%$searchTerm%' OR product_title LIKE '%$searchTerm%'";
 }
+
+// Fetch data from the database
+$sql = "SELECT * FROM orders $searchQuery ORDER BY order_date DESC";
+$result = $conn->query($sql);
 ?>
 
 <!DOCTYPE html>
@@ -103,10 +90,73 @@ if (isset($_POST['search'])) {
                     </ul>
                     <div class="auth-links">
                         <a href="logout.php" class="login-link"><i class="fas fa-sign-in-alt"></i> Log Out</a>
-                        
+                        <div class="cart">
+                            <a href="pages/cart.php"><i class="fas fa-shopping-cart"></i></a>
+                        </div>
                     </div>
                 </div>
                 <a href="#" class="sidenav-trigger menu" onclick="toggleNav()">
                     <i class="fas fa-bars"></i>
                 </a>
-                <a href="#" class="s
+                <a href="#" class="sidenav-trigger close" onclick="toggleNav()">
+                    <i class="fas fa-times"></i>
+                </a>
+            </div>
+        </nav>
+        <ul class="sidenav" id="mobile-nav">
+            <li><a href="#updateProduct">Menu</a></li>
+            <li><a href="userContact.php">Contact User</a></li>
+            <li><a href="table.php">Book Table</a></li>
+            <li><a href="logout.php">Log Out</a></li>
+        </ul>
+    </header>
+    <h1>Order Details</h1>
+    <section class="orderList">
+
+        <form class="search-form" method="post" action="">
+            <label for="search_term">Search:</label>
+            <input type="text" id="search_term" name="search_term" value="<?php echo isset($_POST['search_term']) ? htmlspecialchars($_POST['search_term'], ENT_QUOTES, 'UTF-8') : ''; ?>">
+            <input type="submit" name="search" value="Search">
+        </form>
+
+        <?php if ($result && $result->num_rows > 0) : ?>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>User ID</th>
+                        <th>Full Name</th>
+                        <th>Phone Number</th>
+                        <th>Product ID</th>
+                        <th>Product Title</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th>Order Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php while ($row = $result->fetch_assoc()) : ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($row["order_id"], ENT_QUOTES, 'UTF-8'); ?></td>
+                            <td><?php echo htmlspecialchars($row["user_id"], ENT_QUOTES, 'UTF-8'); ?></td>
+                            <td><?php echo htmlspecialchars($row["fullname"], ENT_QUOTES, 'UTF-8'); ?></td>
+                            <td><?php echo htmlspecialchars($row["phone_number"], ENT_QUOTES, 'UTF-8'); ?></td>
+                            <td><?php echo htmlspecialchars($row["product_id"], ENT_QUOTES, 'UTF-8'); ?></td>
+                            <td><?php echo htmlspecialchars($row["product_title"], ENT_QUOTES, 'UTF-8'); ?></td>
+                            <td><?php echo htmlspecialchars($row["quantity"], ENT_QUOTES, 'UTF-8'); ?></td>
+                            <td><?php echo htmlspecialchars($row["total"], ENT_QUOTES, 'UTF-8'); ?></td>
+                            <td><?php echo htmlspecialchars($row["order_date"], ENT_QUOTES, 'UTF-8'); ?></td>
+                        </tr>
+                    <?php endwhile; ?>
+                </tbody>
+            </table>
+        <?php else : ?>
+            <p>No results found.</p>
+        <?php endif; ?>
+
+        <?php $conn->close(); ?>
+    </section>
+
+</body>
+
+</html>
