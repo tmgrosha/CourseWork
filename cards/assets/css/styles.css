@@ -209,10 +209,10 @@ a {
   justify-content: center;
   flex-wrap: wrap;
   gap: 20px;
-  padding: 0 20px;
+  padding: 0 30px;
 }
 .card {
-  width: 500px;
+  width: 365px;
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 8px;
