@@ -3,7 +3,9 @@
   padding: 0;
   box-sizing: border-box;
 }
-
+body {
+  background-color: #4b4b4b;
+}
 .btn {
   background-color: #ff6600;
   padding: 10px;

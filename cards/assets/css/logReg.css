@@ -4,6 +4,9 @@
     padding: 0;
     box-sizing: border-box;
 }
+body {
+    background-color: #4b4b4b;
+  }
 
 /* Container for forms */
 .form-page {

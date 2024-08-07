@@ -14,7 +14,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'add' && isset($_GET['id'])) {
     $product_id = $conn->real_escape_string($_GET['id']);
 
     // Fetch product details
-    $sql = "SELECT * FROM products WHERE id = ?";
+    $sql = "SELECT * FROM product WHERE id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('i', $product_id);
     $stmt->execute();
