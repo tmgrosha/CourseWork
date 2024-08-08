@@ -1,11 +1,4 @@
 <?php
-session_start();
-
-if(!isset($_SESSION["phone"])) {
-    header("Location: ../users/login.php");
-    exit();
-}
-
 // Include the database connection file
 include '../users/db.php';
 

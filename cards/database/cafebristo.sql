@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 02, 2024 at 08:32 AM
+-- Generation Time: Aug 08, 2024 at 01:46 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -18,30 +18,31 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `cafebristo`
+-- Database: `try`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `category`
+-- Table structure for table `categories`
 --
 
-CREATE TABLE `category` (
-  `id` int(11) NOT NULL,
-  `catagories` enum('hot','cold','light_meal','alternative_drink') NOT NULL
+CREATE TABLE `categories` (
+  `category` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `category`
+-- Dumping data for table `categories`
 --
 
-INSERT INTO `category` (`id`, `catagories`) VALUES
-(1, 'hot'),
-(2, 'cold'),
-(3, 'light_meal'),
-(4, 'alternative_drink');
-(4, 'alternative_drink');
+INSERT INTO `categories` (`category`) VALUES
+('alternative_drink'),
+('clear'),
+('cold'),
+('hot'),
+('light_meal'),
+('nepali traditional'),
+('nepali_cuision');
 
 -- --------------------------------------------------------
 
@@ -73,7 +74,7 @@ CREATE TABLE `product` (
   `description` text NOT NULL,
   `price` decimal(10,2) NOT NULL,
   `image` varchar(255) DEFAULT NULL,
-  `categories` enum('hot','cold','light_meal','alternative_drink') NOT NULL
+  `categories` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -81,13 +82,8 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`id`, `title`, `description`, `price`, `image`, `categories`) VALUES
-(2, 'Americano', 'hot drink coffee pore into hot water', 150.00, 'https://assets.beanbox.com/blog_images/AB7ud4YSE6nmOX0iGlgA.jpeg', 'hot'),
-(4, 'ice latte', 'iced coffee or cold version of latte', 400.00, 'uploads/iced latte.jpg', 'cold'),
-(6, 'lungo', 'coffee', 400.00, 'uploads/cappuccino.jpg', 'hot'),
-(7, 'smoothie', 'smoothie are made up with fruites', 200.00, 'https://static.toiimg.com/photo/65224830.cms', 'alternative_drink'),
-(8, 'espresso', 'pure form of coffee', 100.00, 'https://cdn.rizopouloscoffee.gr/www/rizopoulos-coffee-espresso.jpg', 'hot'),
-(14, 'mocha', 'mixed of coffee with chocolate', 400.00, 'uploads/cappuccino.jpg', 'hot'),
-(15, 'momo', 'Nepali cuisine made up of Fine flour AND Meat  ', 100.00, 'https://www.dreamlandgoldresort.com/images/blog/gjMCS-chicken-momos-with-tomato-achar-46671-1.jpg', 'light_meal');
+(1, 'americano', 'hot water with pure form of coffee', 200.00, 'americano.png', 'hot'),
+(2, 'lassi', 'made up of fruit paste and curd', 150.00, 'https://pipingpotcurry.com/wp-content/uploads/2021/05/Lassi-in-a-glass.jpg', 'alternative_drink');
 
 -- --------------------------------------------------------
 
@@ -138,10 +134,10 @@ INSERT INTO `user_valid` (`id`, `phone_number`, `password`, `privilege`) VALUES
 --
 
 --
--- Indexes for table `category`
+-- Indexes for table `categories`
 --
-ALTER TABLE `category`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE `categories`
+  ADD PRIMARY KEY (`category`);
 
 --
 -- Indexes for table `orders`
@@ -155,7 +151,8 @@ ALTER TABLE `orders`
 -- Indexes for table `product`
 --
 ALTER TABLE `product`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `categories` (`categories`);
 
 --
 -- Indexes for table `user_reg`
@@ -177,12 +174,6 @@ ALTER TABLE `user_valid`
 --
 
 --
--- AUTO_INCREMENT for table `category`
---
-ALTER TABLE `category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
@@ -192,7 +183,7 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `user_reg`
@@ -216,6 +207,12 @@ ALTER TABLE `user_valid`
 ALTER TABLE `orders`
   ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user_reg` (`id`),
   ADD CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`);
+
+--
+-- Constraints for table `product`
+--
+ALTER TABLE `product`
+  ADD CONSTRAINT `product_ibfk_1` FOREIGN KEY (`categories`) REFERENCES `categories` (`category`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `user_valid`

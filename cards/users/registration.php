@@ -130,9 +130,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-    <?php include "../includes/header3.php"; ?>
+    <?php
+    //  include "../includes/header3.php"; 
+    ?>
     <section class="form-page">
-        <h1>.</h1>
         <div class="formReg">
             <h2>Café Registration</h2>
             <form id="registrationForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
@@ -184,7 +185,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </form>
         </div>
     </section>
-    <?php include "../includes/footer.php"; ?>
     <script src="../assets/js/script.js"></script>
 </body>
 
